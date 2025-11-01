@@ -1,7 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { Layout, Menu, theme, Table } from 'antd';
+import { Layout, Menu, theme } from 'antd';
+import ControllableTable from './components/ControllableTable';
 import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 
@@ -155,7 +156,7 @@ function App() {
             >
               <div style={{ background: colorBgContainer, width: "100%", height: 400 }}> <div style={{ width: "calc(100% - 80px)", height: 400, position: "relative", left: -60,top:20 }} ref={container}></div></div>
               <div style={{ background: colorBgContainer, width: "100%", marginTop:30,padding:10 }}>
-                <Table columns={columns} dataSource={data} />
+                <ControllableTable columns={columns} dataSource={data} />
               </div>
             </div>
           </Content>
