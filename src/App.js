@@ -3,81 +3,43 @@ import './App.css';
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme, Table } from 'antd';
 import React, { useEffect, useRef } from 'react';
-import * as echarts from 'echarts';
+import Chart from './components/Chart';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 function App() {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const { token: { colorBgContainer } } = theme.useToken();
 
+  // 图表数据源
+  const chartData = [
+    { 
+      name: '曼哈顿',
+      smooth: true,
+      data: [-190, 100, 100, 120, 130, 140, 150],
+      markLine: {
+        data: [{ type: 'average', name: 'Avg' }]
+      }
+    },
+    { 
+      name: '国贸',
+      data: [210, 120, 330, 100, 470, 690, -200],
+      smooth: true,
+      markLine: {
+        data: [{ type: 'average', name: 'Avg' }]
+      }
+    },
+    { 
+      name: '商业中心',
+      data: [1500, 120, 830, -800, 170, 190, -1500],
+      smooth: true,
+      markLine: {
+        data: [{ type: 'average', name: 'Avg' }]
+      }
+    }
+  ];
 
-  const chart = useRef(null)
-  const container = useRef(null)
-
-  useEffect(() => {
-    chart.current = echarts.init(container.current, theme);
-    chart.current.setOption({
-      title: {
-        // text: 'Temperature Change in the Coming Week'
-      },
-      tooltip: {
-        trigger: 'axis'
-      },
-      legend: {},
-      xAxis: {
-        type: 'category',
-        boundaryGap: false,
-        data: ['2023-02-01', '2023-02-01', '2023-02-01', '2023-02-01', '2023-02-01', '2023-02-01', '2023-02-01']
-      },
-      yAxis: {
-        type: 'value',
-        axisLabel: {
-          formatter: '{value}'
-        }
-      },
-      series: [
-        {
-          name: '曼哈顿',
-          type: 'line',
-          smooth: true,
-          data: [-190, 100, 100, 120, 130, 140, 150],
-          // markPoint: {
-          //   data: [
-          //     { type: 'max', name: 'Max' },
-          //     { type: 'min', name: 'Min' }
-          //   ]
-          // },
-          markLine: {
-            data: [{ type: 'average', name: 'Avg' }]
-          }
-        },
-        {
-          name: '国贸',
-          type: 'line',
-          data: [210, 120, 330, 100, 470, 690, -200],
-          smooth: true,
-          markLine: {
-            data: [
-              { type: 'average', name: 'Avg' },
-            ]
-          }
-        },
-        {
-          name: '商业中心',
-          type: 'line',
-          data: [1500, 120, 830, -800, 170, 190, -1500],
-          smooth: true,
-          markLine: {
-            data: [
-              { type: 'average', name: 'Avg' },
-            ]
-          }
-        }
-      ]
-    }, true)
-  }, [])
+  // X轴数据
+  const xAxisData = ['2023-02-01', '2023-02-01', '2023-02-01', '2023-02-01', '2023-02-01', '2023-02-01', '2023-02-01'];
 
   const navs = ["订单供给", "运力履约", "服务质量", "毛利趋势"]
 
@@ -153,7 +115,22 @@ function App() {
                 // background: colorBgContainer,
               }}
             >
-              <div style={{ background: colorBgContainer, width: "100%", height: 400 }}> <div style={{ width: "calc(100% - 80px)", height: 400, position: "relative", left: -60,top:20 }} ref={container}></div></div>
+              <div style={{ background: colorBgContainer, width: "100%", height: 400, marginBottom: 30 }}>
+                <Chart 
+                  type="line"
+                  dataSource={chartData}
+                  xAxisData={xAxisData}
+                  title="折线图示例"
+                />
+              </div>
+              <div style={{ background: colorBgContainer, width: "100%", height: 400 }}>
+                <Chart 
+                  type="bar"
+                  dataSource={chartData}
+                  xAxisData={xAxisData}
+                  title="柱形图示例"
+                />
+              </div>
               <div style={{ background: colorBgContainer, width: "100%", marginTop:30,padding:10 }}>
                 <Table columns={columns} dataSource={data} />
               </div>
